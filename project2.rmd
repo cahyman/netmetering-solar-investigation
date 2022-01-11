@@ -1,0 +1,243 @@
+---
+title: "Net Metering and Solar Preliminary Investigation"
+author: "Catherine Hyman"
+date: "11/29/2021"
+output: html_document
+---
+
+```{r setup, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Background
+
+My project drew inspiration from Google's Project Sunroof which allows users to determine the efficacy of installing to the roof of their home of business. In this project, I sought to use Project Sunroof data to investigate solar installation trends. Specifically, I focused on the following questions: 
+
+1) Most broadly, where are solar panels installed? 
+  
+2) Is there a correlation between sunny weather and installation of solar pannels (which is to be expected)? or can discrepancies in solar installation be attributed to another factor?
+  
+3) How effective are net metering laws in encouraging solar installation? Different states define net metering using different criteria: how can the effect of these nuances on solar installation help influence policy makers to stress the importance of generous net metering laws? 
+
+
+## Data 
+For this project I used data from two sources: [Google's Project Sunroof](https://sunroof.withgoogle.com/data-explorer/) and [Solar Reviews](https://www.solarreviews.com/blog/the-state-of-net-metering-usa-2021). 
+
+```{r read meta, message=FALSE}
+metadata<-read_csv("metadata.csv") #explanation of sunroof variables
+```
+
+```{r read sunroof, message=FALSE}
+sunroof_states<-read_csv("project-sunroof-state.csv") #sunroof data by state 
+states<-map_data("state") #map of US states
+sunroof<-read_csv("project-sunroof-county.csv") #sunroof data by county
+```
+
+```{r read metering, message=FALSE}
+net_metering<-read_csv("net_metering_by_state (3).csv") #net metering data 
+```
+
+
+In order to make my preliminary plots, I modified the dataset entitled "sunroof" which contains information about the the Project Sunroof metrics for all US counties covered by project sunroof. First, I eliminated all counties where the estimated number of installed panels was zero and selected six metrics to examine: 
+
+    count_qualified = The number of of buildings in Google Maps that are suitable for solar. 
+  
+    existing_installs_count = The number of of buildings estimated to have a solar installation, at time of data collection. 
+  
+    carbon_offset_metric_tons = The potential carbon dioxide abatement of the solar capacity that meets the technical potential criteria. 
+  
+    number_of_panels_total = The number of solar panels potential for all roof space in that region (assuming 1.650m x 0.992m panels). 
+  
+    kw_median = kW of solar potential for the median building in that region (assuming 250 watts per panel)
+  
+    yearly_sunlight_kwh_median =  Project Sunroof's  estimated annual solar energy generation potential for the median roof space in that region. The kWh/kw/yr for the median roof, in DC (not AC) terms. To more easily comprehend the units: kWh produced / kW of panel installed / year. 
+  
+  I also added the variable `relative_installment` in order to eliminate the variation between county sizes. I used the following calculation: 
+  `relative_installment <- existing_installs_count / count_qualified * 100` 
+  I use this metric several times throughout my project in order to show how much progress a given county has made with solar installation. 
+  
+  I added this same variable to the sunroof_states data set, which contains all of the same information as the original sunroof data set for every US state and D.C. instead of by county. I joined sunroof_states with the data to code for a choropleth of the US states. 
+  
+
+```{r modify sunroof}
+sunroof<-filter(sunroof, existing_installs_count>0) 
+sunroof<- select(sunroof, region_name, state_name, 
+                 yearly_sunlight_kwh_median, 
+                 existing_installs_count, 
+                 count_qualified, 
+                 number_of_panels_total, 
+                 carbon_offset_metric_tons, 
+                 kw_median)
+
+sunroof<-mutate(sunroof, relative_installment = existing_installs_count/count_qualified*100) 
+sunroof_states<-mutate(sunroof_states, relative_installment= 
+                       existing_installs_count/count_qualified*100) 
+
+
+vars_list <- colnames(sunroof) #var_list is for shiny app inputs 
+vars_list<-vars_list[c(3:9)]
+
+sunroof_states$region<-tolower(sunroof_states$region_name)
+sunroof_choropleth<-left_join(states,sunroof_states,by="region")
+
+```
+
+## Sunlight Hitting Median Roof
+In this first plot, I sought to investigate the sun exposure per state. Because of my project's focus on residential and commercial solar panels, I chose to display the `yearly_sunlight_kwh_median` variable which shows the sun exposure per the median roof in each state.
+```{r sunlight roofs choropleth}
+ggplot()+ 
+  geom_polygon(data=sunroof_choropleth,
+               aes_string(x="long", y="lat", group="group", fill=("yearly_sunlight_kwh_median"
+
+)))+
+  coord_map() +
+  theme_void()+
+  scale_fill_gradient(low="white",high="red")+
+  geom_path(data=states, aes(x=long, y=lat, group=group), color="black")+
+  labs(title="Sunlight for median roof", fill="kWh/kw/yr for the median roof")
+```
+
+In this second plot, I compare `yearly_sunlight_kwh_median` with with the relative number of panels installed per county. My goal for this plot was to see if there was any correlation between the sunnier areas where panels are more effective and panel installment. First, I wanted to see frequency trends; therefore, I made a density plot which shows that solar panels on the median roof in the majority of US counties have solar potential of ~10000-15000 per year. Unfortunately, this plot also shows that the overwhelming majority of these counties have less than 1% of roofs with solar panels installed. 
+
+```{r installment density}
+ggplot(sunroof, aes(x=yearly_sunlight_kwh_median, y=relative_installment))+
+  geom_bin2d(binwidth=c(1000,1))+
+  theme_classic() + 
+  scale_fill_gradient(low="lightblue",high="darkblue")+
+  labs(title="Density Plot: Solar Potential and Installed Solar Panels", subtitle = "Data shown for all US counties covered by Project Sunroof")+
+  ylab("Percent of Roofs With Panels Installed")+
+  xlab("Solar Potential for Median Building (kW)")+
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0))
+```
+
+This third plot shows the regression line of the density plot and a visualization of each individual county. This plot affirms the minimal correlation between installed panels and solar potential that is shown in the density plot. 
+
+```{r installment }
+ggplot(sunroof, aes(x=yearly_sunlight_kwh_median, y=relative_installment))+
+  geom_point(aes(color=yearly_sunlight_kwh_median))+
+  theme_classic() + 
+  scale_color_gradient(low="yellow", high="firebrick1")+
+  labs(title="Relationship Between Solar Potential and Installed Solar Panels", subtitle = "Data shown for all US counties covered by Project Sunroof")+
+  ylab("Percent of Roofs With Panels Installed")+
+  xlab("Solar Potential for Median Building (kW)")+
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0))+
+  geom_smooth(color="tomato1",method="lm")+
+  coord_cartesian(xlim=c(0,35000),ylim=c(0,13))
+
+```
+
+In order to make my exploratory net metering plots, joined the net_metering data with R's state data in order to make a choropleth to easily visualize the information for each state. 
+
+I also created a new data set, net_metering_comparison, in order to compare the Project Sunroof data with the net metering data.
+
+I was interested in comparing net metering laws by region, so I added a new variable, us_region, which specifies the geographic region of every state. In order to compare weighted regional relative installment and net metering laws, I created a new variable regional_rates. 
+
+    regional_rates <- summarize(group_by(net_metering_comparison, us_region),
+                                weighted_installment = sum(existing_installs_count)/sum(count_qualified))
+
+
+To examine net metering, I will be focussing on the following criteria: 
+
+**Definition:** States are in charge of defining methods of compensation for excess energy produced. The way net metering is defined significantly alters the incentive to install solar panels. The most basic net metering policies allow for 1-to-1 credit exchange: if X amount of excess energy is produced in one month, X amount of energy will be compensated for in the next month. Other policies will compensate based on Feed-in Tariffs (FiTs) which consider additional factors such as location, value of solar energy, and retail rates. Depending on the guidelines, FiTs can be more or less generous compared to basic net metering policies. Some states do not allow net metering at all. 
+
+**Coverage:** Some states only allow commercial customers to recieve net metering compensation while others allow for both residential and commercial customers to participate. 
+
+**Virtual Net Metering:** Virtual net metering allows net metering credits to be used across different properties: if property A recieves abundant solar energy, the property owner can use 1-to-1 net metering credits on the energy generated to cover the energy costs of property B. 
+
+**Rollover Policy:** Lenient rollover policies allow for indefinite rollover credit while stricter policies allow for utility companies to reclaim unused credits at the end of each month or year. 
+
+**Demand charges:** Demand charges are utility companies' way of discouraging customers from using sporatic bursts of energy rather than steady consumption. Ultimately demand charges are a disincentive to invest in solar panels because the maximum energy consumed from the grid (typically at night when there is no solar production) is charged and does not reflect their actual usage. 
+
+**Final Grade:** A final grade that consists of combining the aformentioned criteria to come to a consensus in regards to the overall strength of net metering policies in a given state. This final grade was calculated for me in the data set that I used. 
+
+
+
+```{r modify net metering}
+net_metering<-rename(net_metering, "region"="State")
+net_metering$region<-tolower(net_metering$region)
+net_metering_states<-full_join(states,net_metering,by="region")
+
+net_metering_comparison<-inner_join(sunroof_states,net_metering, by="region")
+
+
+meter_list<-colnames(net_metering)  #var_list is for shiny app inputs 
+meter_list<-meter_list[2:7]
+
+net_metering_comparison<-select(net_metering_comparison, region, all_of(vars_list), all_of(meter_list))
+
+northeast_states<- c("Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont", "New Jersey", "New York", "Pennsylvania")
+midwest_states <- c("Illinois", "Indiana", "Michigan", "Ohio", "Wisconsin", "Iowa", "Kansas", "Minnesota", "Missouri", "Nebraska", "North Dakota", "South Dakota")
+south_states <- c("Delaware", "Florida", "Georgia", "Maryland", "North Carolina", "South Carolina", "Virginia", "District of Columbia", "West Virginia", "Alabama", "Kentucky", "Mississippi", "Tennessee", "Arkansas", "Louisiana", "Oklahoma", "Texas")
+west_states <- c("Arizona", "Colorado", "Idaho", "Montana", "Nevada", "New Mexico", "Utah", "Wyoming", "Alaska", "California", "Hawaii", "Oregon", "Washington")
+
+net_metering_comparison<- mutate(net_metering_comparison, us_region=ifelse(region %in% tolower(northeast_states), "Northeast",
+                                        ifelse(region %in% tolower(midwest_states), "Midwest",
+                                               ifelse(region %in% tolower(south_states), "South",
+                                                      ifelse(region %in% tolower(west_states), "West","NA")))))
+
+
+regional_rates <- summarize(group_by(net_metering_comparison, us_region),
+                            weighted_installment = sum(existing_installs_count)/sum(count_qualified)
+                            )
+
+```
+
+This plot displays the breakdown of net metering policy by US region. The northeast has the most generous net metering policies while the south has the most stingy policies. 
+```{r comparison}
+ggplot(net_metering_comparison, aes(x=us_region, y=frequency(Final_Grade)))+
+  geom_col(aes(fill=Final_Grade))+
+  theme_classic()+
+  scale_fill_brewer(palette="Spectral", direction=-1)+
+  scale_y_discrete(expand = c(0,0))+
+  labs(title = "Breakdown of Net Metering by Region", fill="Final Grade")+
+  xlab("US Region")+
+  ylab("Number of States in Region")
+```
+
+
+
+This boxplot shows the relationship between relative panel installment and the net metering policy. I used a logarithmic scale given the prevalence of outliers and states with very low installment rates. This plot shows that there is a significant correlation between panel installment and net metering policy, where states with better net metering policies have more panels installed. This reinforces the importance of net metering policies as an incentive to invest in solar. 
+
+I added a dashed line connecting each median to show the trend. 
+
+```{r box}
+net_metering_comparison<-filter(net_metering_comparison,relative_installment!=0)
+median<-summarize(group_by(net_metering_comparison, Final_Grade),
+                  median=median(relative_installment))
+ggplot(net_metering_comparison, aes(x=Final_Grade, y=relative_installment, fill=Final_Grade))+
+  geom_boxplot()+
+  theme_classic()+
+  scale_fill_brewer(palette="Spectral", direction=-1)+
+  scale_y_continuous(trans="log")+
+  labs(title="Relationship Between Net Metering Laws \nand Installed Solar Panels")+
+  xlab("Final Grade")+
+  ylab("Percent of Roofs With Panels Installed")+
+  geom_line(data = median, 
+            mapping = aes(x = Final_Grade, y = median, group=1), linetype="dashed", size=1)
+```
+
+
+## Shiny Project 
+My shiny app has a few additional exploration tools. The purpose of this shiny app was to provide me with an exploratory tool with which I could create the informative plots displayed above. That being said, it is fun to engage with this shiny app, and the app provides information about specific net metering legislation.  
+
+**The Shiny Application contains the following:** 
+1) A scatter plot which allows the user to compare two of any of the project sunroof variables that I found to be interesting in the counties of their states of interest. 
+
+2) A choropleth that depicts the scatter plot's x axis per state.
+
+3) A bar chart that uses my calculated variable `weighted_installment` which shows the weighted installment of solar panels per different level of net metering metric. 
+
+4) A choropleth that shows the state by state policy of the chosen net metering metric from the bar chart. 
+
+https://chyman.shinyapps.io/solaranalysis/ 
+
+## Conclusions 
+
+**Conclusion 1:** The first, most glaring, conclusion to which I have arrived is that the current state of solar panel installment is unimpressive. Given that the vast majority of US counties covered by project sunroof have less than 1% relative installment, we have a long way to go to move towards a more sustainable future. Because the relative_installment rate that I calculated is incredibly low for many counties, it is tricky to discern any clear trends. Therefore, the current incentives to invest in solar are often insufficient motivation. That being said, there seems to be preliminary correlation between generous net metering policies and higher rates of solar panel installment (as shown by the bar charts in my shiny app and the boxplot on this RMarkdown file). Additionally, despite all of the counties with less than 1% relative installment in all types of climate, there is a relationship between sunnier areas and more panels installed. 
+
+**Conclusion 2:** This project has sparked my curiosity in innovative incentives to increase solar installation. After the fixed installation cost, there are no downsides to installing solar panels (other than the possibility that future panels will be cheaper and more effective). Projects such as Google's Project Sunroof are key in helping people realize how truly beneficial solar technology is —for their wallets and the planet. I wish to do new research in regards to other country's successes in in catalyzing solar installation. Additionally, I am fascinated by Hawaii, which has over 12% relative installment. Perhaps the high utility cost in Hawaii is sufficient incentive to transition to solar. What would be the financial implications if the federal government taxed energy consumption from nonrenewable sources? Perhaps the financial disruption would be sufficient to encourage people to transition to solar. Additionally, I would like to look at survey data as to why people install or do not install solar panels.
+
+
+
+

@@ -1,0 +1,102 @@
+State,Definition_Net_Metering,Coverage,Demand_Charges,Rollover_Policy,Virtual_Net_Metering,Final_Grade
+Delaware,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,A: Virtual/Aggregate net metering explicitly allowed by law,A
+New Hampshire,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Oregon,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Washington DC,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Arkansas,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Maryland,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Minnesota,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+New Jersey,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+New York,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Maine,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",A: Virtual/Aggregate net metering explicitly allowed by law,A
+Pennsylvania,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,"C: Aggregate allowed, but installations required to be on contiguous property",A
+Vermont,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",A: Virtual/Aggregate net metering explicitly allowed by law,A
+Virginia,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",A: Virtual/Aggregate net metering explicitly allowed by law,A
+Washington,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",A: Virtual/Aggregate net metering explicitly allowed by law,A
+West Virginia,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,"C: Aggregate allowed, but installations required to be on contiguous property",A
+Connecticut,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Massachusetts,"B: Full Retail KWH Credits minus 
+ non-bypassable charges",A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,A: Virtual/Aggregate net metering explicitly allowed by law,A
+Illinois,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",A: Virtual/Aggregate net metering explicitly allowed by law,A
+California,"B: Full Retail KWH Credits minus 
+ non-bypassable charges",A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,A: Virtual/Aggregate net metering explicitly allowed by law,A
+New Mexico,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,F: No virtual net metering,A
+Colorado,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,B: Annual payout at avoided cost or some other FiT,"C: Aggregate allowed, but installations required to be on contiguous property",A
+Indiana,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,A: Continuous rollover or NEG payout,F: No virtual net metering,B
+Wyoming,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,F: No virtual net metering,B
+Rhode Island,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",A: All or nearly all utilities covered,No demand charge,A: Continuous rollover or NEG payout,A: Virtual/Aggregate net metering explicitly allowed by law,B
+Florida,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,B: Annual payout at avoided cost or some other FiT,F: No virtual net metering,B
+Iowa,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,B: Annual payout at avoided cost or some other FiT,F: No virtual net metering,B
+South Carolina,A: Guaranteed full Retail-Rate,B: Investor-owned utilities only,No demand charge,B: Annual payout at avoided cost or some other FiT,F: No virtual net metering,B
+Nevada,"B: Full Retail KWH Credits minus 
+ non-bypassable charges",A: All or nearly all utilities covered,Demand charge of any kind,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,B
+Hawaii,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",A: Virtual/Aggregate net metering explicitly allowed by law,C
+North Carolina,A: Guaranteed full Retail-Rate,A: All or nearly all utilities covered,Demand charge of any kind,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,C
+Nebraska,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",A: All or nearly all utilities covered,No demand charge,B: Annual payout at avoided cost or some other FiT,F: No virtual net metering,C
+Alaska,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,C
+Missouri,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",A: All or nearly all utilities covered,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,C
+Ohio,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",B: Investor-owned utilities only,No demand charge,B: Annual payout at avoided cost or some other FiT,F: No virtual net metering,C
+Idaho,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",B: Investor-owned utilities only,No demand charge,F: No net metering,"C: Aggregate allowed, but installations required to be on contiguous property",C
+Montana,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)","C: Fewer than all IOUs in the state, but greater 
+than 35% of population covered",No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,C
+Texas,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)","C: Fewer than all IOUs in the state, but greater 
+than 35% of population covered",No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,C
+North Dakota,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",B: Investor-owned utilities only,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+Wisconsin,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",A: All or nearly all utilities covered,Demand charge of any kind,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+Utah,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",A: All or nearly all utilities covered,Demand charge of any kind,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG","C: Aggregate allowed, but installations required to be on contiguous property",D
+Kentucky,"C: Retail-rate credit for monthly offset,
+but feed-in tariff (FiT) for net excess generation (NEG)",F: No net metering rules,No demand charge,"D: Utility reclaims credits after each month OR 
+ pays avoided cost/FiT for daily NEG",F: No virtual net metering,D
+Arizona,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",B: Investor-owned utilities only,Demand charge of any kind,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+Mississippi,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",B: Investor-owned utilities only,No demand charge,F: No net metering,F: No virtual net metering,D
+Louisiana,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",F: No net metering rules,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+Oklahoma,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",F: No net metering rules,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+Tennessee,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",F: No net metering rules,No demand charge,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+Kansas,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",B: Investor-owned utilities only,Demand charge of any kind,"C: Utility reclaims credits after 1 year OR pays 
+ avoided cost for monthly NEG",F: No virtual net metering,D
+South Dakota,F: No credit,F: No net metering rules,No demand charge,F: No net metering,F: No virtual net metering,F
+Alabama,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",F: No net metering rules,Demand charge of any kind,"D: Utility reclaims credits after each month OR 
+ pays avoided cost/FiT for daily NEG",F: No virtual net metering,F
+Michigan,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",F: No net metering rules,Demand charge of any kind,"D: Utility reclaims credits after each month OR 
+ pays avoided cost/FiT for daily NEG",F: No virtual net metering,F
+Georgia,"D: FiT for all generation or FiT for real-time 
+ or daily NEG",F: No net metering rules,Demand charge of any kind,F: No net metering,F: No virtual net metering,F
